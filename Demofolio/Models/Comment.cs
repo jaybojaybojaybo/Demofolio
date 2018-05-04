@@ -18,5 +18,14 @@ namespace Demofolio.Models
         public virtual ApplicationUser User { get; set; }
         public virtual int PostId { get; set; }
         public virtual Post Post { get; set; }
+
+        public Comment(string title, string copy, int id = 0)
+        {
+            Title = title;
+            Copy = copy;
+            Id = id;
+        }
+
+        public Comment() { }
     }
 }

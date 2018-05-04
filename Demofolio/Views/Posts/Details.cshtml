@@ -1,31 +1,50 @@
 @model Demofolio.Models.Post
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Details";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+	$(document).ready(function () {
+		$('.leave-comment').click(function () {
+			$.ajax({
+				type: 'GET',
+				dataType: 'html',
+				url: '@Url.Action("ShowComment")',
+				success: function (result) {
+					$('#comments').html(result);
+				}
+			});
+		});
+	});
+</script>
 
 <h2>Details</h2>
 
 <div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Copy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Copy)
-        </dd>
-    </dl>
+	<h4>Post</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Title)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Title)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Copy)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Copy)
+		</dd>
+	</dl>
 </div>
+<div class="leave-comment">
+	<h2>Leave a Comment</h2>
+	<h4>We just used AJAX to display a view!</h4>
+</div>
+<div id="comments"></div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+	<a asp-action="Index">Back to List</a>
 </div>
