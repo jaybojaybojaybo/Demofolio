@@ -18,5 +18,6 @@ namespace Demofolio.Models
             base.OnModelCreating(builder);
         }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }
