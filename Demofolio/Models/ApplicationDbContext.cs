@@ -13,5 +13,10 @@ namespace Demofolio.Models
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+        public DbSet<Post> Posts { get; set; }
     }
 }
