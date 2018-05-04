@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace Demofolio
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -16,7 +16,6 @@ namespace Demofolio
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
 
             host.Run();

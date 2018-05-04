@@ -14,6 +14,7 @@ namespace Demofolio.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Copy { get; set; }
+        public virtual int UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
 }
