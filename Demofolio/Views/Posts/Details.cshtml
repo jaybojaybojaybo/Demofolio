@@ -10,7 +10,7 @@
 			$.ajax({
 				type: 'GET',
 				dataType: 'html',
-				url: '@Url.Action("ShowComment")',
+				url: '@Url.Action("CreateForm", "Comments" )',
 				success: function (result) {
 					$('#comments').html(result);
 				}
@@ -40,8 +40,7 @@
 	</dl>
 </div>
 <div class="leave-comment">
-	<h2>Leave a Comment</h2>
-	<h4>We just used AJAX to display a view!</h4>
+	<h4>Leave a Comment</h4>
 </div>
 <div id="comments"></div>
 <div>

@@ -24,7 +24,7 @@ namespace Demofolio.Controllers
             _userManager = userManager;
             _context = context;
         }
-        public IActionResult Create()
+        public IActionResult CreateForm()
         {
             return View();
         }
@@ -34,19 +34,23 @@ namespace Demofolio.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Copy")] Post post)
+        public async Task<IActionResult> CreateForm(int postId, [Bind("Id,Title,Copy")] Comment comment)
         {
+            comment.PostId = postId;
+            var thisPost = _context.Posts.FirstOrDefault(m => m.Id == postId);
+            comment.Post = thisPost;
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var currentUser = await _userManager.FindByIdAsync(userId);
-            post.User = currentUser;
+            comment.User = currentUser;
+            comment.UserId = userId;
 
             if (ModelState.IsValid)
             {
-                _context.Posts.Add(post);
+                _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(post);
+            return View(comment);
         }
     }
 }
