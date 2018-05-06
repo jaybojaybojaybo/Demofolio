@@ -39,13 +39,18 @@ namespace Demofolio.Controllers
             }
 
             var post = await _context.Posts
+                .Include(c => c.Comments)
                 .SingleOrDefaultAsync(m => m.Id == id);
+            Comment comment = new Comment();
+            comment.Post = post;
+            comment.PostId = (int)id;
+            ViewBag.Comments = _context.Comments.Where(c => c.PostId == id);
             if (post == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View(comment);
         }
 
         // GET: Posts/Create

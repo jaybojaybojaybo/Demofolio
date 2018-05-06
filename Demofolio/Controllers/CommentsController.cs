@@ -25,31 +25,22 @@ namespace Demofolio.Controllers
             _context = context;
         }
 
-        public IActionResult DisplayCreateForm()
-        {
-            return View();
-        }
-
-        // POST: Posts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateForm(int postId, [Bind("Id,Title,Copy")] Comment comment)
+        public async Task<IActionResult> Create(Comment comment)
         {
-            comment.PostId = postId;
-            var thisPost = _context.Posts.FirstOrDefault(m => m.Id == postId);
-            comment.Post = thisPost;
+            comment.Post = await _context.Posts
+                .Include(c => c.Comments)
+                .FirstOrDefaultAsync(p => p.Id == comment.PostId);
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var currentUser = await _userManager.FindByIdAsync(userId);
             comment.User = currentUser;
             comment.UserId = userId;
-
             if (ModelState.IsValid)
             {
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
-                return View();
+                return RedirectToAction("Details", "Posts", new { id = comment.PostId });
             }
             return View(comment);
         }

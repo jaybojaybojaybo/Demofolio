@@ -1,49 +1,82 @@
-@model Demofolio.Models.Post
+@using Demofolio.Models
+@model Demofolio.Models.Comment
 
 @{
 	ViewData["Title"] = "Details";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
-	$(document).ready(function () {
-		$('.leave-comment').click(function () {
-			$.ajax({
-				type: 'GET',
-				dataType: 'html',
-				url: '@Url.Action("DisplayCreateForm", "Comments" )',
-				success: function (result) {
-					$('#comments').html(result);
-				}
-			});
-		});
-	});
-</script>
 
 <h2>Details</h2>
 
 <div>
-	<h4>Post</h4>
+	<h4>@Model.PostId</h4>
 	<hr />
 	<dl class="dl-horizontal">
 		<dt>
-			@Html.DisplayNameFor(model => model.Title)
+			@Html.DisplayNameFor(model => model.Post.Title)
 		</dt>
 		<dd>
-			@Html.DisplayFor(model => model.Title)
+			@Html.DisplayFor(model => model.Post.Title)
 		</dd>
 		<dt>
-			@Html.DisplayNameFor(model => model.Copy)
+			@Html.DisplayNameFor(model => model.Post.Copy)
 		</dt>
 		<dd>
-			@Html.DisplayFor(model => model.Copy)
+			@Html.DisplayFor(model => model.Post.Copy)
 		</dd>
 	</dl>
 </div>
 <div class="leave-comment">
-	<h4>Leave a Comment</h4>
+	<form asp-action="Create" asp-controller="Comments" asp-route-id="@Model.PostId">
+		<div>
+			<h4>Leave a Comment:</h4>
+			<input type="hidden" asp-for="@Model.PostId" class="form-control" />
+			<div class="form-group">
+				<label asp-for="@Model.Title" class="col-md-2 control-label"></label>
+				<div class="col-md-10">
+					<input asp-for="@Model.Title" class="form-control" />
+					<span asp-validation-for="@Model.Title" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label asp-for="@Model.Copy" class="col-md-2 control-label"></label>
+				<div class="col-md-10">
+					<input asp-for="@Model.Copy" class="form-control" />
+					<span asp-validation-for="@Model.Copy" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-10">
+					<button type="submit" class="btn btn-default">Leave Comment</button>
+				</div>
+			</div>
+		</div>
+	</form>
 </div>
 <div id="comments"></div>
 <div>
-	<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+	@foreach (Comment comment in ViewBag.Comments)
+	{
+		<dl class="dl-horizontal">
+			<dt>
+				@Html.DisplayNameFor(thisComment => comment.Title)
+			</dt>
+			<dd>
+				@Html.DisplayFor(thisComment => comment.Title)
+			</dd>
+			<dt>
+				@Html.DisplayNameFor(thisComment => comment.Copy)
+			</dt>
+			<dd>
+				@Html.DisplayFor(thisComment => comment.Copy)
+			</dd>
+		</dl>
+	}
+</div>
+<div class="see-comment">
+	<h4>Click to See Comments</h4>
+</div>
+<div>
+	<a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a> |
 	<a asp-action="Index">Back to List</a>
 </div>
