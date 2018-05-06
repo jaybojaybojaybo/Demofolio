@@ -24,7 +24,8 @@ namespace Demofolio.Controllers
             _userManager = userManager;
             _context = context;
         }
-        public IActionResult CreateForm()
+
+        public IActionResult DisplayCreateForm()
         {
             return View();
         }
@@ -48,7 +49,7 @@ namespace Demofolio.Controllers
             {
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return View();
             }
             return View(comment);
         }

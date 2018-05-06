@@ -10,7 +10,7 @@
 			$.ajax({
 				type: 'GET',
 				dataType: 'html',
-				url: '@Url.Action("CreateForm", "Comments" )',
+				url: '@Url.Action("DisplayCreateForm", "Comments" )',
 				success: function (result) {
 					$('#comments').html(result);
 				}
