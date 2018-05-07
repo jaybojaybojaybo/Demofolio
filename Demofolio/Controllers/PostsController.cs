@@ -163,5 +163,15 @@ namespace Demofolio.Controllers
         {
             return _context.Posts.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> DisplayComments(int? id)
+        {
+            var post = await _context.Posts
+                .Include(c => c.Comments)
+                .Include(u => u.User)
+                .SingleOrDefaultAsync(m => m.Id == id);
+            List<Comment> comments = post.Comments;
+            return View(comments);
+        }
     }
 }

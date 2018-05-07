@@ -5,6 +5,20 @@
 	ViewData["Title"] = "Details";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+	$(document).ready(function () {
+		$('.see-comments').click(function () {
+			$.getJSON({
+				type: 'GET',
+				dataType: 'html',
+				url: '@Url.Action("DisplayComments", "Posts", new { id = @Model.PostId })',
+				success: function (result) {
+					$('#see-comments').html(result);
+				}
+			});
+		});
+	});
+</script>
 
 <h2>Details</h2>
 
@@ -27,7 +41,7 @@
 	</dl>
 </div>
 <div class="leave-comment">
-	<form asp-action="Create" asp-controller="Comments" asp-route-id="@Model.PostId">
+	<form asp-action="Create" asp-controller="Comments">
 		<div>
 			<h4>Leave a Comment:</h4>
 			<input type="hidden" asp-for="@Model.PostId" class="form-control" />
@@ -55,27 +69,9 @@
 </div>
 <div id="comments"></div>
 <div>
-	@foreach (Comment comment in ViewBag.Comments)
-	{
-		<dl class="dl-horizontal">
-			<dt>
-				@Html.DisplayNameFor(thisComment => comment.Title)
-			</dt>
-			<dd>
-				@Html.DisplayFor(thisComment => comment.Title)
-			</dd>
-			<dt>
-				@Html.DisplayNameFor(thisComment => comment.Copy)
-			</dt>
-			<dd>
-				@Html.DisplayFor(thisComment => comment.Copy)
-			</dd>
-		</dl>
-	}
+	<h4 class="see-comments">Click to See Comments</h4>
 </div>
-<div class="see-comment">
-	<h4>Click to See Comments</h4>
-</div>
+<div id="see-comments"></div>
 <div>
 	<a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a> |
 	<a asp-action="Index">Back to List</a>

@@ -17,7 +17,5 @@ namespace Demofolio.Models
         public virtual string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual List<Comment> Comments { get; set; }
-
-        public Post() { }
     }
 }
