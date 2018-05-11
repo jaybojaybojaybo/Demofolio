@@ -2,15 +2,17 @@
 
 <h2>All Messages</h2>
 <hr />
-<ol>
+
 	@foreach (var repo in Model)
 	{
-		<li>
-			<ul>
-				<li>To: @Html.DisplayFor(modelItem => repo.id)</li>
-			</ul>
-		</li>
+		<div>
+
+				<h4><a href="@Html.DisplayFor(modelItem => repo.html_url)">@Html.DisplayFor(modelItem => repo.name)</a></h4>
+				<li>Description: @Html.DisplayFor(modelItem => repo.description)</li>
+				<li>Star Count: @Html.DisplayFor(modelItem => repo.stargazers_count)</li>
+
+		</div>
 	}
-</ol>
+
 
 @Html.ActionLink("Back home", "Index")

@@ -13,27 +13,38 @@ namespace Demofolio.Models
 {
     public class GitHubAPI
     {
-        public int Id { get; set; }
-        public string RepoName { get; set; }
-        public string RepoUrl { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string html_url { get; set; }
+        public string description { get; set; }
+        public int stargazers_count { get; set; }
 
         public static List<GitHubAPI> GetRepos()
         {
-            var request = new RestRequest("https://api.github.com/users/jaybojaybojaybo/starred", Method.GET);
+            var client = new RestClient();
+            client.BaseUrl = new Uri("https://api.github.com");
+
+            var request = new RestRequest();
+            request.AddHeader("header", "application/vnd.github.v3+json");
+            request.AddHeader("User-Agent", EnvironmentalVariables.AccountUserAgent);
+            request.Resource = "/users/jaybojaybojaybo/starred";
+
             var response = new RestResponse();
             Task.Run(async () =>
             {
-                response = await GetResponseContentAsync(request) as RestResponse;
+                response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
-            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            var repoList = JsonConvert.DeserializeObject<List<GitHubAPI>>(jsonResponse["messages"].ToString());
+            JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(response.Content);
+            var repoList = JsonConvert.DeserializeObject<List<GitHubAPI>>(jsonResponse.ToString());
             return repoList;
-
         }
 
-        public static Task<IRestResponse> GetResponseContentAsync(RestRequest theRequest)
+        public static Task<IRestResponse> GetResponseContentAsync(RestClient theClient, RestRequest theRequest)
         {
             var tcs = new TaskCompletionSource<IRestResponse>();
+            theClient.ExecuteAsync(theRequest, response => {
+                tcs.SetResult(response);
+            });
             return tcs.Task;
         }
     }
