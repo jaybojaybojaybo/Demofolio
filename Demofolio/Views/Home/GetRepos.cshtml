@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Demofolio.Models.GitHubAPI>
+
+<h2>All Messages</h2>
+<hr />
+<ol>
+	@foreach (var repo in Model)
+	{
+		<li>
+			<ul>
+				<li>To: @Html.DisplayFor(modelItem => repo.id)</li>
+			</ul>
+		</li>
+	}
+</ol>
+
+@Html.ActionLink("Back home", "Index")

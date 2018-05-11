@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Demofolio.Models;
 
 namespace Demofolio.Controllers
 {
@@ -30,6 +31,12 @@ namespace Demofolio.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        public IActionResult GetRepos()
+        {
+            var starredRepos = GitHubAPI.GetRepos();
+            return View(starredRepos);
         }
     }
 }
