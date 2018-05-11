@@ -69,7 +69,7 @@ namespace Demofolio.Controllers
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var currentUser = await _userManager.FindByIdAsync(userId);
             post.User = currentUser;
-
+            post.UserId = userId;
             if (ModelState.IsValid)
             {
                 _context.Posts.Add(post);
