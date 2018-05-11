@@ -8,8 +8,8 @@ using Demofolio.Models;
 namespace Demofolio.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180504224132_AddCommentTable")]
-    partial class AddCommentTable
+    [Migration("20180511222401_ReInitializedMigration")]
+    partial class ReInitializedMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,15 +77,13 @@ namespace Demofolio.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -99,13 +97,11 @@ namespace Demofolio.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -220,20 +216,20 @@ namespace Demofolio.Migrations
             modelBuilder.Entity("Demofolio.Models.Comment", b =>
                 {
                     b.HasOne("Demofolio.Models.Post", "Post")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Demofolio.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Demofolio.Models.Post", b =>
                 {
                     b.HasOne("Demofolio.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
